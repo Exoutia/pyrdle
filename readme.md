@@ -8,4 +8,4 @@ this is a project from the
 - `-m` after python runs the module after it as a script
 
 # Complete Game
-![Alt text](images/played_game.png)
+![Alt text](game_rec.gif)
