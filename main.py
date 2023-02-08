@@ -29,29 +29,6 @@ def get_random_word(word_list: list, num: int = 5):
 
     return choice(words) #nosec
 
-def show_guess(guess_word: str, correct_word: str):
-    """Show the user's guess on the terminal and classify all the letters
-    ## Example:
-    >>> show_guess("CRANE", "SNAKE")
-    Correct letters: A, E
-    Misplaced letters: N
-    Wrong letters: C, R
-
-    Args:
-        guess_word (str): the word user has guessed
-        correct_word (str): the correct word
-    """
-
-    correct_letters = {
-        letter for letter, correct in zip(guess_word, correct_word) if letter == correct
-    }
-    misplaced_letters = set(guess_word) & set(correct_word) - correct_letters
-    wrong_letters = set(guess_word) - set(correct_word)
-
-    print(f'Correct letters: {", ".join(sorted(correct_letters))}')
-    print(f'Misplaced letters: {", ".join(sorted(misplaced_letters))}')
-    print(f'Wrong letters: {", ".join(sorted(wrong_letters))}')
-
 
 def styled_show_guess(guesses, word):
     for guess in guesses:
@@ -68,8 +45,16 @@ def styled_show_guess(guesses, word):
             styled_guess.append(f'[{style}]{letter}[/]')
         console.print(''.join(styled_guess), justify='center')
 
-def game_over(word):
-    print(f'The word was {word}')
+def game_over(guesses, word, guessed_correctly):
+    refresh_page(headline="Game Over")
+    styled_show_guess(guesses, word)
+
+    if guessed_correctly:
+        console.print(f"\n[bold white on green]Correct, the word is {word}[/]")
+    else:
+        console.print(f"\n[bold white on red]Sorry, the word was {word}[/]")
+
+
 
 
 def refresh_page(headline):
@@ -97,7 +82,7 @@ def main():
             break
 
     # Post-process
-    game_over(guesses, word)
+    game_over(guesses, word, guessed_correctly = guesses[idx]==word)
 
 if __name__ == "__main__":
     main()
